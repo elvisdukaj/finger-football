@@ -1,5 +1,5 @@
 #include <iostream>
-#include <gl/gl3w.h>
+#include <GL/gl3w.h>
 #include <SDL2/SDL.h>
 using namespace std;
 
@@ -16,7 +16,7 @@ void draw(SDL_Window* window)
     SDL_GL_SwapWindow(window);
 }
 
-int wmain()
+int main()
 {
     cout << "Hello World!" << endl;
 
@@ -35,14 +35,6 @@ int wmain()
                 | SDL_WINDOW_SHOWN
                 );
     auto context = SDL_GL_CreateContext(window);
-
-    for (auto minor = 0; minor < 7; ++minor)
-    {
-        cout << "OpenGL 4." << minor << " is "
-             << boolalpha
-             << (gl3wIsSupported(4, minor) ? " supported" : " not supported")
-             << endl;
-    }
 
     initGL();
 
