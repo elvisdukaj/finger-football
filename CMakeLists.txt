@@ -9,6 +9,7 @@ set(SRC_LIST
     "src/imgui.cpp"
     "src/imgui_draw.cpp"
     "src/imgui_impl_sdl_gl3.cpp"
+    "src/imgui_demo.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})
@@ -26,6 +27,6 @@ PRIVATE
 
 target_link_libraries(${PROJECT_NAME}
 PRIVATE
-#    OpenGL::GL
+    OpenGL::GL
     SDL2::SDL2-static
 )
