@@ -26,6 +26,6 @@ PRIVATE
 
 target_link_libraries(${PROJECT_NAME}
 PRIVATE
-    OpenGL::GL
+#    OpenGL::GL
     SDL2::SDL2-static
 )

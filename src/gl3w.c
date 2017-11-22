@@ -130,8 +130,13 @@ static int parse_version(void)
 	if (!glGetIntegerv)
 		return GL3W_ERROR_INIT;
 
-	glGetIntegerv(GL_MAJOR_VERSION, &version.major);
-	glGetIntegerv(GL_MINOR_VERSION, &version.minor);
+    int maj, min;
+
+    glGetIntegerv(GL_MAJOR_VERSION, &maj);
+    glGetIntegerv(GL_MINOR_VERSION, &min);
+
+    version.major = maj;
+    version.minor = min;
 
 	if (version.major < 3)
 		return GL3W_ERROR_OPENGL_VERSION;

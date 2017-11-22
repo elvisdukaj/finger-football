@@ -1,5 +1,4 @@
 #include <iostream>
-//#include <GLES3/gl3.h>
 #include <GL/gl3w.h>
 #include <SDL2/SDL.h>
 #include <imgui.h>
@@ -8,57 +7,77 @@ using namespace std;
 
 void initGL()
 {
-    gl3wInit();
     glClearColor(1.0f, 0.0f, 1.0f, 0.0f);
 }
 
-void draw(SDL_Window* window)
+void draw()
 {
     glClear(GL_COLOR_BUFFER_BIT);
-    SDL_GL_SwapWindow(window);
 }
 
 int main()
 {
     cout << "Hello World!" << endl;
 
-    SDL_Init(SDL_INIT_VIDEO);
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS))
+    {
+        cerr << "Unable to initialize Window System" << endl;
+        SDL_Quit();
+        return EXIT_FAILURE;
+    };
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-//    SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_FORWARD_COMPATIBLE_FLAG);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-
-    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+//    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 
     auto window = SDL_CreateWindow(
                 "My cool game", 0, 0, 800, 600
                 , SDL_WINDOW_OPENGL
-                | SDL_WINDOW_RESIZABLE
                 | SDL_WINDOW_SHOWN
                 );
+
+    if (window == 0)
+    {
+        cerr << "Unable to create Main Window" << endl;
+        SDL_Quit();
+        return EXIT_FAILURE;
+    }
+
     auto context = SDL_GL_CreateContext(window);
 
+//    SDL_GL_MakeCurrent(window, context);
+
+    if (gl3wInit())
+    {
+        cerr << "Unable to initialize OpenGL" << endl;
+        SDL_GL_DeleteContext(context);
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return EXIT_FAILURE;
+    }
+
 //    ImGui_ImplSdlGL3_Init(window);
+
+
 
     initGL();
 
     SDL_Event event;
-    bool canExit = false;
+    bool done = false;
 
-    while(!canExit)
+    while(!done)
     {
         while (SDL_PollEvent(&event))
         {
 //            ImGui_ImplSdlGL3_ProcessEvent(&event);
             if (event.type == SDL_QUIT)
-                canExit = true;
+                done = true;
 
             if (event.type == SDL_KEYDOWN)
             {
                 if (event.key.keysym.sym == SDLK_ESCAPE)
-                    canExit = true;
+                    done = true;
             }
         }
 
@@ -67,7 +86,7 @@ int main()
 //        ImGui::Text("Hello from another window!");
 //        ImGui::End();
 
-        draw(window);
+        draw();
 //        ImGui::Render();
     }
 
