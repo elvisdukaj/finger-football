@@ -93,7 +93,6 @@ static GL3WglProc get_proc(const char *proc)
 #include <GL/glx.h>
 
 static void *libgl;
-static PFNGLXGETPROCADDRESSPROC glx_get_proc_address;
 
 static int open_libgl(void)
 {
@@ -101,7 +100,6 @@ static int open_libgl(void)
 	if (!libgl)
 		return GL3W_ERROR_LIBRARY_OPEN;
 
-	*(void **)(&glx_get_proc_address) = dlsym(libgl, "glXGetProcAddressARB");
 	return GL3W_OK;
 }
 
@@ -112,12 +110,12 @@ static void close_libgl(void)
 
 static GL3WglProc get_proc(const char *proc)
 {
-	GL3WglProc res;
+    GL3WglProc res;
 
-	res = glx_get_proc_address((const GLubyte *)proc);
-	if (!res)
-		*(void **)(&res) = dlsym(libgl, proc);
-	return res;
+    res = (GL3WglProc)glXGetProcAddress(proc);
+    if (!res)
+        *(void **)(&res) = (GL3WglProc)dlsym(libgl, proc);
+    return res;
 }
 #endif
 

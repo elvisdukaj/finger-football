@@ -1,5 +1,6 @@
 #include <iostream>
 #include <GL/gl3w.h>
+//#include <GL/gl.h>
 #include <SDL2/SDL.h>
 #include <imgui.h>
 #include "imgui_impl_sdl_gl3.h"
@@ -18,7 +19,7 @@ void draw()
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-int wmain()
+int main()
 {
     cout << "Hello World!" << endl;
 
@@ -36,9 +37,7 @@ int wmain()
 
     auto window = SDL_CreateWindow(
                 "My cool game", 0, 0, 1366, 768
-                , SDL_WINDOW_OPENGL
-                | SDL_WINDOW_SHOWN
-                | SDL_WINDOW_RESIZABLE
+                , SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE
                 );
 
     if (window == 0)
