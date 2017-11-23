@@ -30,7 +30,6 @@
 
 #include <GL/gl3w.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 #define ARRAY_SIZE(x)	(sizeof(x) / sizeof((x)[0]))
 
@@ -131,15 +130,8 @@ static int parse_version(void)
 	if (!glGetIntegerv)
 		return GL3W_ERROR_INIT;
 
-    int maj, min;
-
-    glGetIntegerv(GL_MAJOR_VERSION, &maj);
-    glGetIntegerv(GL_MINOR_VERSION, &min);
-
-    version.major = maj;
-    version.minor = min;
-
-    printf("OpenGL version: %d.%d\n", maj, min);
+	glGetIntegerv(GL_MAJOR_VERSION, &version.major);
+	glGetIntegerv(GL_MINOR_VERSION, &version.minor);
 
 	if (version.major < 3)
 		return GL3W_ERROR_OPENGL_VERSION;
