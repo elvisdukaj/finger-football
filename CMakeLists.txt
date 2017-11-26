@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 project(finger-football)
 
-set(SDL2_DIR ${CMAKE_SOURCE_DIR}/extlibs/cmake)
 
 set(SRC_LIST
     "src/main.cpp"
@@ -10,11 +9,16 @@ set(SRC_LIST
     "src/imgui_draw.cpp"
     "src/imgui_impl_sdl_gl3.cpp"
     "src/imgui_demo.cpp"
+    "src/windowsystem.cpp"
+    "src/gameobject.cpp"
+    "src/gpu.cpp"
 )
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 
-set(CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/extlibs)
+set(SDL2_DIR ${CMAKE_SOURCE_DIR}/extlibs/cmake)
+#set(CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/extlibs)
+
 find_package(SDL2 CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
 

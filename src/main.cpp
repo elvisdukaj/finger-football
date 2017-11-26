@@ -1,7 +1,6 @@
 #include <iostream>
 #include <GL/gl3w.h>
 #include "windowsystem.hpp"
-#include "entity.hpp"
 using namespace std;
 
 void initGL()
@@ -23,11 +22,8 @@ int wmain()
     while(window.isOpen())
     {        
         window.pollEvents();
-
         draw();
-
         window.display();
-
     }
 
     cout << "Everything is clean now!" << endl;

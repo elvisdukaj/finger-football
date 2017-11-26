@@ -30,7 +30,6 @@
 
 #include <GL/gl3w.h>
 #include <stdlib.h>
-#include <stdio.h>
 
 #define ARRAY_SIZE(x)	(sizeof(x) / sizeof((x)[0]))
 
@@ -94,7 +93,6 @@ static GL3WglProc get_proc(const char *proc)
 #include <GL/glx.h>
 
 static void *libgl;
-static PFNGLXGETPROCADDRESSPROC glx_get_proc_address;
 
 static int open_libgl(void)
 {
@@ -102,7 +100,6 @@ static int open_libgl(void)
 	if (!libgl)
 		return GL3W_ERROR_LIBRARY_OPEN;
 
-	*(void **)(&glx_get_proc_address) = dlsym(libgl, "glXGetProcAddressARB");
 	return GL3W_OK;
 }
 
@@ -113,12 +110,12 @@ static void close_libgl(void)
 
 static GL3WglProc get_proc(const char *proc)
 {
-	GL3WglProc res;
+    GL3WglProc res;
 
-	res = glx_get_proc_address((const GLubyte *)proc);
-	if (!res)
-		*(void **)(&res) = dlsym(libgl, proc);
-	return res;
+    res = (GL3WglProc)glXGetProcAddress(proc);
+    if (!res)
+        *(void **)(&res) = (GL3WglProc)dlsym(libgl, proc);
+    return res;
 }
 #endif
 
@@ -131,15 +128,8 @@ static int parse_version(void)
 	if (!glGetIntegerv)
 		return GL3W_ERROR_INIT;
 
-    int maj, min;
-
-    glGetIntegerv(GL_MAJOR_VERSION, &maj);
-    glGetIntegerv(GL_MINOR_VERSION, &min);
-
-    version.major = maj;
-    version.minor = min;
-
-    printf("OpenGL version: %d.%d\n", maj, min);
+	glGetIntegerv(GL_MAJOR_VERSION, &version.major);
+	glGetIntegerv(GL_MINOR_VERSION, &version.minor);
 
 	if (version.major < 3)
 		return GL3W_ERROR_OPENGL_VERSION;
