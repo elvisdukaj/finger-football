@@ -1,6 +1,7 @@
 #include <iostream>
 #include <GL/gl3w.h>
 #include "windowsystem.hpp"
+#include "entity.hpp"
 using namespace std;
 
 void initGL()
@@ -13,11 +14,20 @@ void draw()
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
+#ifdef _WIN32
 int wmain()
+#else
+int main()
+#endif
 {
     Window window{"Finger Soccer!!!", 1280, 720};
 
     initGL();
+
+    Entity ent;
+
+    ent.addComponent<TransformComponent>();
+    ent.addComponent<RigidBodyCompont>();
 
     while(window.isOpen())
     {        

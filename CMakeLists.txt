@@ -4,6 +4,7 @@ project(finger-football)
 
 set(SRC_LIST
     "src/main.cpp"
+    "src/entity.cpp"
     "src/gl3w.c"
     "src/imgui.cpp"
     "src/imgui_draw.cpp"
