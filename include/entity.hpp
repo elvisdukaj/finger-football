@@ -1,12 +1,13 @@
 #pragma once
 
+#include "math.hpp"
 #include <vector>
 #include <type_traits>
 #include <cstdint>
 
 using Vector3f = float[3];
 
-struct Component {};
+struct Component {};cd ../
 
 struct PositionComponent : public Component {
     Vector3f position;
