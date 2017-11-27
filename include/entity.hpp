@@ -8,12 +8,16 @@ using Vector3f = float[3];
 
 struct Component {};
 
-struct TransformComponent : public Component {
+struct PositionComponent : public Component {
     Vector3f position;
-    Vector3f rotation;
+};
+
+struct RotationComponent : public Component {
+    Vector3f position;
 };
 
 struct RigidBodyCompont : public Component {
+    float mass;
     Vector3f force;
     Vector3f torque;
 };
