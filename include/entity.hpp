@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <type_traits>
+#include <cstdint>
 
 using Vector3f = float[3];
 

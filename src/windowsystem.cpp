@@ -1,25 +1,17 @@
 #include "windowsystem.hpp"
 #include <GL/gl3w.h>
 #include <cstdlib>
-#include <mutex>
 #include <iostream>
 #include <stdexcept>
 using namespace std;
 
-once_flag g_initSDLFlag;
-
-void InitSDL()
+Window::Window(const char *title, int width, int height, WindowProperty winProp)
 {
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS))
     {
         SDL_Quit();
         throw runtime_error{"SDL Initialization failed"};
     }
-}
-
-Window::Window(const char *title, int width, int height, WindowProperty winProp)
-{
-    call_once(g_initSDLFlag, InitSDL);
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
@@ -33,10 +25,6 @@ Window::Window(const char *title, int width, int height, WindowProperty winProp)
     m_window = SDL_CreateWindow(title, 0, 0, width, height,
                                 SDL_WINDOW_OPENGL | winFlags
                 );
-
-    SDL_DisplayMode mode;
-    SDL_GetWindowDisplayMode(m_window, &mode);
-    cout  << "Display mode: " << mode.w << 'x' << mode.h << endl;
 
     if (m_window == nullptr)
     {
@@ -78,6 +66,7 @@ void Window::pollEvents()
     while (SDL_PollEvent(&event))
     {
         switch(event.type) {
+        case SDL_APP_TERMINATING:
         case SDL_QUIT:
             m_isOpen = false;
             break;
@@ -86,6 +75,8 @@ void Window::pollEvents()
             if (event.key.keysym.sym == SDLK_ESCAPE)
                 m_isOpen = false;
             break;
+
+            case SDL_
         }
     }
 }

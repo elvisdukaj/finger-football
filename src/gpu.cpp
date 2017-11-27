@@ -2,6 +2,7 @@
 #include <GL/gl3w.h>
 #include <fstream>
 #include <stdexcept>
+#include <string_view>
 
 using namespace std;
 
@@ -21,15 +22,15 @@ GLenum toShaderType(ShaderType t)
     return GL_VERTEX_SHADER;
 }
 
-GLuint CreateShader(ShaderType type, const string& source)
+GLuint CreateShader(ShaderType type, const string_view& source)
 {
     GLuint shaderObj = glCreateShader(toShaderType(type));
 
     if (!shaderObj)
         throw runtime_error{"Unable to create the shader object"};
 
-    const GLchar* sources[1] = { source.c_str() };
-    GLint lengths[1] = {GLint(source.length())};
+    const GLchar* sources[1] = { source.data() };
+    GLint lengths[1] = {static_cast<GLint>(source.size())};
     glShaderSource(shaderObj, 1, sources, lengths);
     glCompileShader(shaderObj);
 
@@ -74,8 +75,8 @@ Shader::Shader(ShaderType type, ifstream&& file)
 {
 }
 
-Shader::Shader(ShaderType type, const string& file)
-    : m_type{type}, m_shader{detail::CreateShader(type, file)}
+Shader::Shader(ShaderType type, const string_view& source)
+    : m_type{type}, m_shader{detail::CreateShader(type, source)}
 {
 }
 

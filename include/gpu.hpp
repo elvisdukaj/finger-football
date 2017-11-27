@@ -1,15 +1,14 @@
 #pragma once
 
 #include <iosfwd>
-#include <string>
+#include <string_view>
 #include <vector>
 
 enum class ShaderType {vertex, fragment};
 class Shader {
 public:
-
     Shader(ShaderType type, std::ifstream&& file);
-    Shader(ShaderType type, const std::string& source);
+    Shader(ShaderType type, const std::string_view& source);
     Shader(Shader&& rhs);
     Shader& operator = (Shader&& rhs);
 

@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 project(finger-football)
 
-
 set(SRC_LIST
     "src/main.cpp"
     "src/entity.cpp"
@@ -17,8 +16,12 @@ set(SRC_LIST
 
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 
+target_compile_features(${PROJECT_NAME}
+PRIVATE
+    cxx_std_17
+)
+
 set(SDL2_DIR ${CMAKE_SOURCE_DIR}/extlibs/cmake)
-#set(CMAKE_PREFIX_PATH ${CMAKE_SOURCE_DIR}/extlibs)
 
 find_package(SDL2 CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)

@@ -20,7 +20,7 @@ int wmain()
 int main()
 #endif
 {
-    Window window{"Finger Soccer!!!", 1280, 720};
+    Window window{"Finger Soccer!!!", 1920, 1080, WindowProperty::RESIZEABLE};
 
     initGL();
 
